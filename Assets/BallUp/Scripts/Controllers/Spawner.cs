@@ -67,23 +67,6 @@ public class Spawner : MonoBehaviour
         return list;
     }
 
-    public void SpawnParticle(PoolObject bonusParticle)
-    {
-        switch (bonusParticle)
-        {
-            case PoolObject.CoinCollectEffect:
-                var coinObj = _objectPool.SpawnFromPool(bonusParticle, GetRandomPosEffect(), Quaternion.identity);
-                StartCoroutine(DisableTimer(coinObj));
-                break;
-            case PoolObject.JumpCollectEffect:
-                var jumpObj = _objectPool.SpawnFromPool(bonusParticle, GetRandomPosEffect(), Quaternion.identity);
-                StartCoroutine(DisableTimer(jumpObj));
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(bonusParticle), bonusParticle, null);
-        }
-    }
-
     public Platform SpawnPlatform()
     {
         if (_counter > Random.Range(1, 5))
@@ -108,12 +91,6 @@ public class Spawner : MonoBehaviour
 
     private Vector3 GetRandomPosEffect() => new Vector3(
         Random.Range(-_screenLimit, _screenLimit),
-        transform.position.y + (Offset * Random.Range(4, 10)),
+        transform.position.y + (Offset * Random.Range(2, 6)),
         MainSpawnPos);
-
-    private IEnumerator DisableTimer(GameObject obj)
-    {
-        yield return new WaitForSeconds(3);
-        obj.SetActive(false);
-    }
 }

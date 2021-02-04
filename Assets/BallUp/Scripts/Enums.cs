@@ -7,11 +7,15 @@ public enum GameState
     GameOver
 }
 
+public enum ParticleEffect
+{
+    CoinCount,
+    JumpCount
+}
+
 [Serializable]
 public enum PoolObject
 {
     RichPlatform,
-    Platform,
-    CoinCollectEffect,
-    JumpCollectEffect
+    Platform
 }

@@ -10,7 +10,7 @@ public class PlatformController : MonoBehaviour
     private GameState _state;
     
     public event Action OnPlatformDisable;
-    public int GetCountDisabledPlatform => _disabledPlatform;
+    public event Action<int> OnDisablePlatformsCountChange;
 
     public void SetGameState(GameState gameState) => _state = gameState;
 
@@ -26,6 +26,7 @@ public class PlatformController : MonoBehaviour
     {
         _disabledPlatform++;
         OnPlatformDisable?.Invoke();
+        OnDisablePlatformsCountChange?.Invoke(_disabledPlatform);
         platform.OnPlatformDisable -= RequestSpawnNewPlatform;
     }
 

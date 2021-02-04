@@ -4,7 +4,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public event Action OnFallAction;
-    public event Action OnCoinGet;
+    public event Action<int> OnCoinGet;
 
     [SerializeField] private Ball ballPrefab;
     [SerializeField] private float sensitive = 6;
@@ -15,8 +15,6 @@ public class BallController : MonoBehaviour
     private Transform _ballTransform;
     private GameState _state;
     private int _coinCount;
-
-    public int GetCoinInfo => _coinCount;
 
     public void Init()
     {
@@ -45,7 +43,7 @@ public class BallController : MonoBehaviour
     private void CoinGrab()
     {
         _coinCount++;
-        OnCoinGet?.Invoke();
+        OnCoinGet?.Invoke(_coinCount);
     }
 
 #if UNITY_EDITOR
