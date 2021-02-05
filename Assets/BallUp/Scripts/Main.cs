@@ -27,6 +27,7 @@ public class Main : MonoBehaviour
     private void InitGame()
     {
         spawner.Init();
+        uiController.Init();
         InitSubscribers();
         _stateController.Init();
 

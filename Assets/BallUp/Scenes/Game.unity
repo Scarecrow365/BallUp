@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104e95f99b4ee744eae4ba2d692e26b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showScreenInState: 0
+  showScreenInState: 2
   retryButton: {fileID: 1599708477}
   exitButton: {fileID: 882174183}
 --- !u!1 &272899652
@@ -1584,8 +1584,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textScoreJump: {fileID: 1991483917}
   textScoreCoin: {fileID: 2035295349}
-  mainMenuWindow: {fileID: 2082917557}
-  gameOverWindow: {fileID: 267223941}
+  uiWindows:
+  - {fileID: 2082917557}
+  - {fileID: 267223941}
 --- !u!114 &1072368137
 MonoBehaviour:
   m_ObjectHideFlags: 0

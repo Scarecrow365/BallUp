@@ -21,6 +21,14 @@ public class PlatformController : MonoBehaviour
             MovePlatform();
         }
     }
+    
+    private void OnDestroy()
+    {
+        foreach (var platform in _platforms)
+        {
+            platform.OnPlatformDisable -= RemoveDisablePlatform;
+        }
+    }
 
     private void RequestSpawnNewPlatform(Platform platform)
     {
@@ -67,13 +75,5 @@ public class PlatformController : MonoBehaviour
         _platforms.Add(newPlatform);
         newPlatform.OnPlatformDisable += RequestSpawnNewPlatform;
         newPlatform.OnPlatformDisable += RemoveDisablePlatform;
-    }
-
-    public void OnDestroy()
-    {
-        foreach (var platform in _platforms)
-        {
-            platform.OnPlatformDisable -= RemoveDisablePlatform;
-        }
     }
 }

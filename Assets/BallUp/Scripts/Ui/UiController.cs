@@ -6,19 +6,20 @@ public class UiController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textScoreJump;
     [SerializeField] private TextMeshProUGUI textScoreCoin;
-    [SerializeField] private MainMenuWindow mainMenuWindow;
-    [SerializeField] private GameOverWindow gameOverWindow;
+    [SerializeField] private BaseWindow[] uiWindows;
 
     public event Action OnPlayButtonPressed;
     public event Action OnRestartButtonPressed;
     public event Action OnExitButtonPressed;
 
-    private void Awake()
+    public void Init()
     {
-        mainMenuWindow.OnPlayButtonPressed += StartGame;
-        mainMenuWindow.OnExitButtonPressed += ExitGame;
-        gameOverWindow.OnRetryButtonPressed += RestartGame;
-        gameOverWindow.OnExitButtonPressed += Exit;
+        foreach (var window in uiWindows)
+        {
+            window.OnPressButtonPlay += StartGame;
+            window.OnPressButtonRetry += RestartGame;
+            window.OnPressButtonQuit += ExitGame;
+        }
         
         UpdateCoinScoreCount(0);
         UpdateJumpScoreCount(0);
@@ -26,13 +27,14 @@ public class UiController : MonoBehaviour
 
     private void OnDestroy()
     {
-        mainMenuWindow.OnPlayButtonPressed -= StartGame;
-        mainMenuWindow.OnExitButtonPressed -= ExitGame;
-        gameOverWindow.OnRetryButtonPressed -= RestartGame;
-        gameOverWindow.OnExitButtonPressed -= Exit;
+        foreach (var window in uiWindows)
+        {
+            window.OnPressButtonPlay -= StartGame;
+            window.OnPressButtonRetry -= RestartGame;
+            window.OnPressButtonQuit -= ExitGame;
+        }
     }
-
-    private void Exit() => OnExitButtonPressed?.Invoke();
+    
     private void RestartGame() => OnRestartButtonPressed?.Invoke();
     private void StartGame() => OnPlayButtonPressed?.Invoke();
     private void ExitGame() => OnExitButtonPressed?.Invoke();
@@ -42,7 +44,9 @@ public class UiController : MonoBehaviour
 
     public void ChangeScreen(GameState state)
     {
-        mainMenuWindow.gameObject.SetActive(state == GameState.StartScreen);
-        gameOverWindow.gameObject.SetActive(state == GameState.GameOver);
+        foreach (var window in uiWindows)
+        {
+            window.gameObject.SetActive(state == window.GetWindowState);
+        }
     }
 }

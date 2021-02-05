@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class Spawner : MonoBehaviour
     private const float MainSpawnPos = 20.5f;
     private float _screenLimit;
     private float _counter;
-    private const float Offset = 1.7f; //platform size
+    private const float Offset = 0.85f; // half size platform
 
     public void Init()
     {
@@ -56,15 +53,13 @@ public class Spawner : MonoBehaviour
 
     public List<Platform> InitStartPlatforms()
     {
-        List<Platform> list = new List<Platform>();
-        foreach (var spawnPos in _spawnPos)
-        {
-            var position = new Vector3(Random.Range(_screenLimit + Offset, -_screenLimit - Offset), 0, spawnPos);
-            var obj = _objectPool.SpawnFromPool(PoolObject.Platform, position, Quaternion.identity);
-            list.Add(obj.GetComponent<Platform>());
-        }
-
-        return list;
+        return (
+            from spawnPos 
+            in _spawnPos 
+            select GetRandomPosPlatform()
+            into position 
+            select _objectPool.SpawnFromPool(PoolObject.Platform, position, Quaternion.identity)
+            into obj select obj.GetComponent<Platform>()).ToList();
     }
 
     public Platform SpawnPlatform()
@@ -85,12 +80,7 @@ public class Spawner : MonoBehaviour
     }
 
     private Vector3 GetRandomPosPlatform() => new Vector3(
-        Random.Range(-_screenLimit, _screenLimit),
+        Random.Range(-_screenLimit+Offset, _screenLimit - Offset),
         transform.position.y,
-        MainSpawnPos);
-
-    private Vector3 GetRandomPosEffect() => new Vector3(
-        Random.Range(-_screenLimit, _screenLimit),
-        transform.position.y + (Offset * Random.Range(2, 6)),
         MainSpawnPos);
 }

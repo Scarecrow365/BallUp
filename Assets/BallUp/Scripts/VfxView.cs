@@ -10,19 +10,18 @@ public class VfxView : MonoBehaviour
         switch (effect)
         {
             case ParticleEffect.CoinCount:
-                coinParticle.transform.position = new Vector3(
-                    Random.Range(-4, 4),
-                    Random.Range(4, 8),
-                    coinParticle.transform.position.z);
+                coinParticle.transform.position = SetRandomPos(coinParticle.gameObject);
                 coinParticle.Play();
                 break;
             case ParticleEffect.JumpCount:
-                jumpParticle.transform.position = new Vector3(
-                    Random.Range(-4, 4),
-                    Random.Range(4, 8),
-                    jumpParticle.transform.position.z);
+                jumpParticle.transform.position = SetRandomPos(jumpParticle.gameObject);
                 jumpParticle.Play();
                 break;
         }
     }
+
+    private Vector3 SetRandomPos(GameObject obj) => new Vector3(
+        Random.Range(-4, 4),
+        Random.Range(2, 6),
+        obj.transform.position.z);
 }

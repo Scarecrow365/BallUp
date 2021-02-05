@@ -1,5 +1,3 @@
-﻿using UnityEngine;
-
-public interface IPooledObject
+﻿public interface IPooledObject
 {
 }
